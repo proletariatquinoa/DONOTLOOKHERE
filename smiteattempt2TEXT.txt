@@ -1,0 +1,209 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Window = Rayfield:CreateWindow({
+    Name = "smiter",
+    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+    LoadingTitle = "smiter",
+    LoadingSubtitle = "time to smite",
+    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+ 
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+ 
+    ConfigurationSaving = {
+       Enabled = false,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "Big Hub"
+    },
+ 
+    Discord = {
+       Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+       Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+ 
+    KeySystem = true, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Key System | smiter",
+       Subtitle = "are you a random??",
+       Note = "no randoms can use this", -- Use this to tell the user how to get a key
+       FileName = "SmiterKey", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       Key = {"GABAGOOL"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    }
+ })
+
+ local Tab = Window:CreateTab("smite player(s)", 0)
+ local Section = Tab:CreateSection("smite player(s)")
+
+ local YourNameInput = Tab:CreateInput({
+    Name = "input your username in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'CallMeYogSothoth'",
+    RemoveTextAfterFocusLost = false,
+    Flag = "YourNameInput",
+    Callback = function(TextUser)
+        Rayfield:Notify({
+            Title = "User Determined",
+            Content = TextUser,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ }) 
+
+ local TargetInput = Tab:CreateInput({
+    Name = "input your target's username in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'YogSothothVictim' ",
+    RemoveTextAfterFocusLost = false,
+    Flag = "TargetInput",
+    Callback = function(TextTarget)
+        Rayfield:Notify({
+            Title = "Target Determined",
+            Content = TextTarget,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ })
+
+ local MagicInput = Tab:CreateInput({
+    Name = "input your magic choice in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'Fire Magic'",
+    RemoveTextAfterFocusLost = false,
+    Flag = "MagicChoice",
+    Callback = function(MagicText)
+        Rayfield:Notify({
+            Title = "Magic Chosen",
+            Content = MagicText,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ })
+
+ local singlesmitebutton = Tab:CreateButton({
+    Name = "single smite button",
+    Callback = function()
+    local YourName = YourNameInput.CurrentValue
+    local TargetName = TargetInput.CurrentValue
+    local MagicChoice = MagicInput.CurrentValue
+    
+    print(YourName)
+    print(TargetName)
+    print(MagicChoice)
+
+    local arg1 = {
+        [1] = workspace:WaitForChild(YourName),
+        [2] = workspace:WaitForChild(TargetName),
+        [3] = MagicChoice,
+        [4] = "1",
+        [5] = "[\"Blast\",1,20,20,true,\"Left Leg Impact\",\"(None)\",\"Blast\",\"(None)\",\"(None)\"]",
+        [6] = 60
+    }
+    
+    local DamageRemote = game:GetService("ReplicatedStorage"):WaitForChild("RS"):WaitForChild("Remotes"):WaitForChild("Magic"):WaitForChild("DealAttackDamage")
+    DamageRemote:FireServer(unpack(arg1))
+    Rayfield:Notify({
+      Title = "SMITTEN",
+      Content = TargetName,
+      Duration = 5,
+      Image = 0,
+   })
+    end
+ })
+
+ local SectionEnemies = Tab:CreateSection("smite NPCs")
+
+ local YourNameInput2 = Tab:CreateInput({
+    Name = "input your username in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'bitwinder'",
+    RemoveTextAfterFocusLost = false,
+    Flag = "YNInput2",
+    Callback = function(TextUser2)
+        Rayfield:Notify({
+            Title = "User Determined",
+            Content = TextUser2,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ })
+
+ local EnemyInput = Tab:CreateInput({
+    Name = "input your NPC target name in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'King Calvus'",
+    RemoveTextAfterFocusLost = false,
+    Flag = "EnemyInputFlag",
+    Callback = function(EnemyText)
+        Rayfield:Notify({
+            Title = "NPC Target Determined",
+            Content = EnemyText,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ })
+
+ local EnemyMagicInput = Tab:CreateInput({
+    Name = "input your magic choice in quotes",
+    CurrentValue = "",
+    PlaceholderText = "ex. 'Metal Magic'",
+    RemoveTextAfterFocusLost = false,
+    Flag = "EnemyMagicFlag",
+    Callback = function(EnemyMagicText)
+        Rayfield:Notify({
+            Title = "NPC Target Determined",
+            Content = EnemyMagicText,
+            Duration = 5,
+            Image = 0,
+         })
+    end,
+ })
+
+ local SmiteEnemy = Tab:CreateButton({
+    Name = "press to smite NPC",
+    Callback = function()
+    local User2 = YourNameInput2.CurrentValue
+    local NPCTarget = EnemyInput.CurrentValue
+    local MagicChoice2 = EnemyMagicInput.CurrentValue
+local args = {
+    [1] = workspace:WaitForChild(User2),
+    [2] = workspace:WaitForChild("Enemies"):WaitForChild(NPCTarget),
+    [3] = MagicChoice2,
+    [4] = "1",
+    [5] = "[\"Blast\",1,20,20,true,\"Left Leg Impact\",\"(None)\",\"Blast\",\"(None)\",\"(None)\"]",
+    [6] = 60
+}
+
+local DamageRemote2 = game:GetService("ReplicatedStorage"):WaitForChild("RS"):WaitForChild("Remotes"):WaitForChild("Magic"):WaitForChild("DealAttackDamage")
+DamageRemote2:FireServer(unpack(args))
+Rayfield:Notify({
+   Title = "SMITTEN",
+   Content = NPCTarget,
+   Duration = 5,
+   Image = 0,
+})
+ end
+    end,
+ })
+
+ local Tab = Window:CreateTab("extra/misc", 0)
+ local Section = Tab:CreateSection("extra/misc")
+
+ local infiniteyield = Tab:CreateButton({
+    Name = "press to open infinite yield",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+        Rayfield:Notify({
+            Title = "Infinite Yield Opened",
+            Content = "!!!",
+            Duration = 3,
+            Image = 0,
+         })
+    end,
+ })
